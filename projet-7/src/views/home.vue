@@ -1,37 +1,37 @@
 <template>
-    <div class="home-page">
+    <div class="home-page text-center">
         <div class="logo-container">
-            <img src="../assets/groupomania.png" alt="">
+            <img src="../assets/groupomania.svg" alt="">
         </div>
-        <i class="fas fa-house-user"></i>
-        <h1> {{ option }} </h1>
         <div>
-            <form>
-                <!--identifiant-->
-                <label for="name-user">Nom utilisateur</label>
-                <input v-model="userAccount.name" id="userName" type="text" name="name-user" placeholder="identifiant">
-                <!--mot de passe-->
-                <label for="password-user">Password</label>
-                <input v-model="userAccount.password" id="password" type="password" placeholder="password">
-                <!--confirmation du mot de passe-->
-                <label  for="confirm-password-user">Confirm password</label>
-                <input v-model="userAccount.confirmPassword" v-if="userSignUp" id="confirmPassword" type="password" placeholder="confirm your password">
-                <!--acceptation conditions-->
-                <div v-if="userSignUp"  class="agreement-box">
-                    <input id="agreement" type="checkbox">
-                    <p>J'accepte les conditions</p>
+            <form class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal text-white">Please sign in</h1>
+                <!--User name-->
+                <input v-model="user.name" type="text" id="userName" class="form-control" placeholder="User name" required autocomplete="off" autofocus>
+                <hr>
+                <!--Mot de passe-->
+                <input v-model="user.password" type="password" id="userPassword" class="form-control" placeholder="Password" required>
+                <!--Checkbox-->
+                <div class="checkbox mb-3">
+                    <label class="text-white">
+                        <input v-model="realClient" class="checkbox" type="checkbox" value="verification"> Je ne suis pas un robot.
+                    </label>
                 </div>
-                <!--valider-->
-                <button id="validate" type="submit">Valider</button>
+                <!--Boutton de connection-->
+                <button @click="login" class="btn btn-lg btn-success btn-block" type="submit">Login</button>
+                <hr>
+                <p>Or</p>
+                <!--Page pour l'inscription-->
+                <router-link to="/Register">
+                <button class="btn btn-lg btn-primary btn-block text-center" type="button">Register</button>
+                </router-link>
             </form>
-            <!--change entre login et sign up-->
-            <div @click="changeLoginOption()" class="sign-up-box">
-                <i class="fas fa-sign-in-alt"></i>
-                <p> {{ switchOption }} </p>
-            </div>
 
+            <!--informations annexes-->
+            <p class="mt-5 mb-3 text-white">&copy;Groupomania départment 2019-2020.</p>
+            <router-link to="/about">About Groupomania</router-link>
         </div>
-        <router-link to="/about">About</router-link>
+
     </div>
 </template>
 
@@ -40,70 +40,91 @@
         name: 'Home',
         data: () => {
             return {
-                option: "Login",
-                switchOption : "SignUp",
-                userSignUp: false,
-                userAccount: {
+                user: {
                     name: "",
                     password: "",
-                    confirmPassword: "",
                 },
+                realClient: false,
             }
         },
-        methods:  {
-            changeLoginOption() {
-                if(this.userSignUp === true){
-                this.userSignUp = false    
-                this.option = "Login"
-                this.switchOption = "SignUp"
-                    return
+        methods: {
+            login(){
+                let user = {
+                    ...this.user
                 }
-                this.userSignUp = true;
-                this.option = "SignUp"
-                this.switchOption = "Login"
-                
-            }
+                if(this.realClient === true) {
+                    user = JSON.stringify(user)
+                    console.log(user)
+                }
+            },
         },
     }
 </script>
 
 <style scoped lang="scss">
-    .home-page {
-        width: 100%;
+    body {
         height: 100%;
+        display: -ms-flexbox;
         display: flex;
-        flex-direction: column;
+        -ms-flex-align: center;
         align-items: center;
-        justify-content: center;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .agreement-box {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-    .sign-up-box {
-        margin-top: 5%;
-        background-color: cyan;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .fa-house-user {
-        font-size: 9em;
-        margin: 5%;
-        color: rgb(0, 140, 255);
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
     }
 
     img {
-        width: 35%;
+        width: 200px;
         height: auto;
+        border-radius: 15px;
+    }
+
+    .form-signin {
+        width: 100%;
+        max-width: 500px;
+        padding: 15px;
+        margin: auto;
+        margin-top: 5%;
+        p {
+            color: white;
+            font-size: 1em;
+        }
+        
+    }
+    hr {
+        margin: 5%;
+    }
+
+    .form-signin .checkbox {
+        margin-top: 10%;
+        font-size: 1.5em;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    a {
+        color: #fd2d01;
+        text-decoration: none;
     }
 </style>>
