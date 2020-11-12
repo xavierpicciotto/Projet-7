@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <hr>
-    <h1>JE SUIS LAAAAAAAA</h1>
+    <h1>Groupomania</h1>
     <hr>
   </div>
 </template>
