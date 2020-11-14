@@ -4,13 +4,13 @@
             <img src="../assets/groupomania.svg" alt="">
         </div>
         <div>
-            <form class="form-signin">
+            <form @submit.prevent="handleLogin" class="form-signin">
                 <h1 class="h3 mb-3 font-weight-normal text-white">Please sign in</h1>
                 <!--User name-->
-                <input v-model="user.name" type="text" id="userName" class="form-control" placeholder="User name" required autocomplete="off" autofocus>
+                <input v-model="user.username" v-validate="'required'" type="text" name="username" class="form-control" placeholder="User name" required autocomplete="off" autofocus>
                 <hr>
                 <!--Mot de passe-->
-                <input v-model="user.password" type="password" id="userPassword" class="form-control" placeholder="Password" required>
+                <input v-model="user.password" v-validate="'required'" type="password" name="password" class="form-control" placeholder="Password" required>
                 <!--Checkbox-->
                 <div class="checkbox mb-3">
                     <label class="text-white">
@@ -18,7 +18,7 @@
                     </label>
                 </div>
                 <!--Boutton de connection-->
-                <button @click="login" class="btn btn-lg btn-success btn-block" type="submit">Login</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit">Login</button>
                 <hr>
                 <p>Or</p>
                 <!--Page pour l'inscription-->
@@ -36,29 +36,56 @@
 </template>
 
 <script>
-    export default {
-        name: 'Home',
-        data: () => {
-            return {
-                user: {
-                    name: "",
-                    password: "",
-                },
-                realClient: false,
-            }
-        },
-        methods: {
-            login(){
-                let user = {
-                    ...this.user
-                }
-                if(this.realClient === true) {
-                    user = JSON.stringify(user)
-                    console.log(user)
-                }
-            },
-        },
+import User from '../models/user';
+
+export default {
+  name: 'Home',
+  data() {
+    return {
+      user: new User('', ''),
+      loading: "",
+      message: '',
+      realClient: ""
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
     }
+  },
+  created() {
+    /*if (this.loggedIn) {
+      this.$router.push('/profile');
+    }*/
+  },
+  methods: {
+    handleLogin() {
+      this.loading = true;
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
+
+        if (this.user.username && this.user.password) {
+          this.$store.dispatch('auth/login', this.user).then(
+            () => {
+              console.log(this.user + "connexion établit :)")
+              this.$router.push('/profile');
+            },
+            error => {
+              this.loading = false;
+              this.message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            }
+          );
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
