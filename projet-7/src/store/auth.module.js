@@ -3,7 +3,7 @@ import AuthService from '../services/auth.service';
 const user = JSON.parse(localStorage.getItem('user'));
 
 //vérification
-console.log("TOKEN" + user)
+console.log("TOKEN" + JSON.stringify(user))
 
 const initialState = user
   ? { status: { loggedIn: true }, user }
