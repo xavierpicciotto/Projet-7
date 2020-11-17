@@ -4,12 +4,6 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-/*const cors = require("cors");
-var corsOptions = {
-  origin: "http://localhost:3000"
-};
-app.use(cors(corsOptions));*/
-
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -27,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = require("./app/models");
 
 
-//synchroniser la data base avec sequelize
+//synchroniser la base de donées avec sequelize
 db.sequelize.sync();
 
 
@@ -42,6 +36,7 @@ require('./app/routes/user.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
