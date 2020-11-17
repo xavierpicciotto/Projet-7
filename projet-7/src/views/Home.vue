@@ -1,11 +1,8 @@
 <template>
     <div class="home-page text-center">
-        <div class="logo-container">
-            <img src="../assets/groupomania.svg" alt="">
-        </div>
         <div>
             <form @submit.prevent="handleLogin" class="form-signin">
-                <h1 class="h3 mb-3 font-weight-normal text-white">Please sign in</h1>
+                <h2 class="h3 mb-3 font-weight-normal text-white">Please sign in</h2>
                 <!--User name-->
                 <input v-model="user.username" v-validate="'required'" type="text" name="username" class="form-control" placeholder="User name" required autocomplete="off" autofocus>
                 <hr>
@@ -54,9 +51,10 @@ export default {
     }
   },
   created() {
-    /*if (this.loggedIn) {
+    //redirection auto sur le profile pendant la creation.
+    if (this.loggedIn) {
       this.$router.push('/profile');
-    }*/
+    }
   },
   methods: {
     handleLogin() {
@@ -99,46 +97,13 @@ export default {
         padding-bottom: 40px;
         background-color: #f5f5f5;
     }
-
-    img {
-        width: 200px;
-        height: auto;
-        border-radius: 15px;
-    }
-
-    .form-signin {
-        width: 100%;
-        max-width: 500px;
-        padding: 15px;
-        margin: auto;
-        margin-top: 5%;
-        p {
-            color: white;
-            font-size: 1em;
-        }
-        
-    }
     hr {
         margin: 5%;
     }
-
     .form-signin .checkbox {
         margin-top: 10%;
         font-size: 1.5em;
     }
-
-    .form-signin .form-control {
-        position: relative;
-        box-sizing: border-box;
-        height: auto;
-        padding: 10px;
-        font-size: 16px;
-    }
-
-    .form-signin .form-control:focus {
-        z-index: 2;
-    }
-
     .form-signin input[type="email"] {
         margin-bottom: -1px;
         border-bottom-right-radius: 0;
@@ -149,9 +114,5 @@ export default {
         margin-bottom: 10px;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-    }
-    a {
-        color: #fd2d01;
-        text-decoration: none;
     }
 </style>>
