@@ -1,7 +1,4 @@
-exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
-};
-
+//renvoie l'acces aux contenus
 exports.userBoard = (req, res) => {
   res.status(200).send("User Content.");
 };
