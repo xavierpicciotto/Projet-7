@@ -1,6 +1,4 @@
-const {
-  authJwt
-} = require("../middleware");
+const { authJwt} = require("../middleware");
 const controller = require("../controllers/user.controller");
 
 module.exports = function (app) {
@@ -11,8 +9,6 @@ module.exports = function (app) {
     );
     next();
   });
-  //route pour récupérer tout les contenus
-  app.get("/api/test/all", controller.allAccess);
 
   //route pour récupérer user content
   app.get(
