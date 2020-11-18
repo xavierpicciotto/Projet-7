@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <nav>
-      <p>Groupomania Network</p> 
+      <p>Groupomania Network</p>
       <div v-if="currentUser">
-          <button type="button" class="logout" @click.prevent="logOut">LogOut</button>
+          <button type="button" class="logout btn btn-danger" @click.prevent="logOut"><i class="fas fa-sign-out-alt">Logout</i></button>
       </div>
     </nav>
     <!--Logo-->
@@ -29,20 +29,6 @@
       currentUser() {
         return this.$store.state.auth.user;
       },
-      showAdminBoard() {
-        if (this.currentUser && this.currentUser.roles) {
-          return this.currentUser.roles.includes('ROLE_ADMIN');
-        }
-
-        return false;
-      },
-      showModeratorBoard() {
-        if (this.currentUser && this.currentUser.roles) {
-          return this.currentUser.roles.includes('ROLE_MODERATOR');
-        }
-
-        return false;
-      }
     },
     methods: {
       logOut() {
@@ -128,7 +114,7 @@
     }
 
     a {
-      color: #fd2d01;
+      color: inherit;
       text-decoration: none;
     }
   }
