@@ -8,6 +8,9 @@ const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+//suprime un utilisateur
+
+
 //inscription de l'utilisateur
 exports.signup = (req, res) => {
   // sauvegarde l'utilisateur sur la base de données
