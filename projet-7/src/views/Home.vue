@@ -26,7 +26,7 @@
 
             <!--informations annexes-->
             <p class="mt-5 mb-3 text-white">&copy;Groupomania départment 2019-2020.</p>
-            <router-link to="/about">About Groupomania</router-link>
+            <router-link to="/about" class="text-danger">About Groupomania</router-link>
         </div>
 
     </div>
@@ -42,7 +42,7 @@ export default {
       user: new User('', ''),
       loading: "",
       message: '',
-      realClient: ""
+      realClient: false,
     };
   },
   computed: {
@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     handleLogin() {
+      if(this.realClient){
       this.loading = true;
       this.$validator.validateAll().then(isValid => {
         if (!isValid) {
@@ -82,6 +83,7 @@ export default {
         }
       });
     }
+  }
   }
 };
 </script>
