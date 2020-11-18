@@ -1,7 +1,6 @@
 <template>
   <div class="about">
-    <h1>About Groupomania</h1>
-    <HelloWorld>si</HelloWorld>    
+    <h1>About Groupomania</h1>    
     <router-link to="/">
     <h2>HOME</h2>
     </router-link>
@@ -9,13 +8,9 @@
 </template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
 
 export default {
-  name: "app",
-  components: {
-    HelloWorld
-  }
+  name: "About",
 }
 </script>
 
