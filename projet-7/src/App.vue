@@ -7,7 +7,6 @@
       </div>
     </nav>
     <!--Logo-->
-
     <div class="logo-container text-center">
       <router-link to="/">
         <img src="./assets/icon.svg" alt="">
@@ -27,7 +26,11 @@
   export default {
     computed: {
       currentUser() {
-        return this.$store.state.auth.user;
+        const user = this.$store.state.auth.user;
+        if(user != null){
+         return user; 
+        }
+        return false
       },
     },
     methods: {
@@ -102,14 +105,10 @@
 
       input [type="text"] {
         margin-bottom: 25px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
       }
 
       input[type="password"] {
         margin-bottom: 35px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
       }
     }
 
