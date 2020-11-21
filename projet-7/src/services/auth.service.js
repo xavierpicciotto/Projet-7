@@ -18,6 +18,19 @@ class AuthService {
       });
   }
 
+  delete(user) {
+    user = {
+      username: user.username,
+      email: user.email,
+      id: user.id
+    }    
+    console.log(JSON.stringify(user) + " = AUTH service before")
+    return axios.delete(API_URL + 'delete',user)
+    .then(response => {
+      console.log("auth service delete ACTIVE = " + JSON.stringify(response))})
+    .catch(err => console.log("auth service delete ERROR ="+err))
+  }
+
   logout() {
     localStorage.removeItem('user');
   }
@@ -29,6 +42,7 @@ class AuthService {
       password: user.password
     });
   }
+
 }
 
 export default new AuthService();
