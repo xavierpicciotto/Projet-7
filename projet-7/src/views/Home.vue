@@ -59,17 +59,19 @@ export default {
   methods: {
     handleLogin() {
       if(this.realClient){
+
       this.loading = true;
       this.$validator.validateAll().then(isValid => {
+        //test
+        console.log('test validator = ' + isValid)
         if (!isValid) {
           this.loading = false;
           return;
         }
-
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
-            () => {
-              console.log(this.user + "connexion établit :)")
+            (user) => {
+              console.log("connexion Utilisateur établit :)" + JSON.stringify(user))
               this.$router.push('/profile');
             },
             error => {
@@ -105,16 +107,5 @@ export default {
     .form-signin .checkbox {
         margin-top: 10%;
         font-size: 1.5em;
-    }
-    .form-signin input[type="email"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
     }
 </style>>
