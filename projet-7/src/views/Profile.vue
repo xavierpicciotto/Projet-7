@@ -25,29 +25,30 @@
 
     <!--selection des contenus-->
     <div class="user-content container jumbotron jumbotron-fluid">
-      <div v-on:click="$router.push('/user')" class="user-acces col-11 text-center">Acces User content.</div>
-      <div v-if="showAdminBoard" v-on:click="$router.push('/admin')" class="user-acces col-11 text-center">Acces Admin
+      <div v-on:click="$router.push('/user')" class="user acces col-11 text-center">User content.</div>
+      <div v-if="showAdminBoard" v-on:click="$router.push('/admin')" class="admin acces col-11 text-center">Admin
         content.</div>
-      <div v-if="showModeratorBoard" v-on:click="$router.push('/mod')" class="user-acces col-11 text-center">Acces
+      <div v-if="showModeratorBoard" v-on:click="$router.push('/mod')" class="moderator acces col-11 text-center">
         Moderator content.</div>
     </div>
     <!--editeur de profil-->
     <div class="editor container jumbotron jumbotron-fluid rounded-bottom">
-      <button v-on:click="editProfile = !editProfile" class="btn bg-primary text-white col-md-4">Edit Profile
+      <button v-on:click="toggleEdit" class="btn bg-primary text-white col-md-4">Edit Profile
       </button>
       <!--account delete-->
-      <button v-on:click="toggleModale" class="btn bg-danger text-white sticky-right col-md-4">
-      Delete account</button>
-      <modaleAccountDelete :accountDelete="accountDelete" :toggleModale="toggleModale"></modaleAccountDelete>
+      <button v-on:click="toggleDelete" class="btn bg-danger text-white sticky-right col-md-4">
+        Delete account</button>
+      <modaleAccountDelete :accountDelete="accountDelete" :toggleDelete="toggleDelete"></modaleAccountDelete>
     </div>
     <!--modify account-->
-    <div v-if="editProfile">zaa</div>
-    
+    <modaleEditProfile :editProfile="editProfile" :toggleEdit="toggleEdit"></modaleEditProfile>
+
   </div>
 </template>
 
 <script>
   import ModaleAccountDelete from "../components/ModaleAccountDelete.vue";
+  import ModaleEditProfile from "../components/ModaleEditProfile";
 
   export default {
     name: 'Profile',
@@ -58,15 +59,19 @@
       }
     },
     components: {
-      modaleAccountDelete: ModaleAccountDelete
+      modaleAccountDelete: ModaleAccountDelete,
+      ModaleEditProfile: ModaleEditProfile,
     },
     methods: {
-      toggleModale: function () {
+      toggleDelete: function () {
         this.accountDelete = !this.accountDelete;
+      },
+      toggleEdit() {
+        this.editProfile = !this.editProfile;
       },
     },
     computed: {
-      //Récupère les infos sur le store.
+      //Récupère les infos sur le User.
       currentUser() {
         return this.$store.state.auth.user;
       },
@@ -115,7 +120,7 @@
     background-color: #f1f1f1;
     margin-bottom: 0;
 
-    .user-acces {
+    .acces {
       cursor: pointer;
       font-size: 2em;
       color: white;
@@ -124,13 +129,30 @@
       margin: auto;
       margin-bottom: 5%;
       padding: 12%;
-      background: linear-gradient(to right, #127eff, #f17979);
       box-shadow: 2px 2px rgba(0, 0, 0, 0.363);
 
       &:hover {
         font-size: 2.05em;
         box-shadow: 3px 3px rgba(0, 0, 0, 0.52);
       }
+    }
+
+    .user {
+      background-image: url(https://images.unsplash.com/photo-1510074377623-8cf13fb86c08?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+      background-position: center;
+      background-size: cover;
+    }
+
+    .admin {
+      background-image: url(https://cdn.pixabay.com/photo/2017/01/26/03/29/office-2009693_960_720.jpg);
+      background-position: center;
+      background-size: cover;
+    }
+
+    .moderator {
+      background-image: url(https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+      background-position: center;
+      background-size: cover;
     }
 
     button {
@@ -144,9 +166,10 @@
     background-color: #f1f1f1;
     display: flex;
     justify-content: space-around;
-
+    padding-top: 0;
     button {
       font-size: 1.5em;
+      border-radius: 1em;
     }
   }
 </style>
