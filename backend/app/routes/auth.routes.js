@@ -23,4 +23,7 @@ module.exports = function(app) {
   
   //route pour la connexion.
   app.post("/api/auth/signin", controller.signin);
+
+  //route pour la supression.
+  app.delete("/api/auth/delete",controller.deleteUser)
 };
