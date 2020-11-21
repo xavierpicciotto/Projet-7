@@ -94,12 +94,12 @@ exports.signin = (req, res) => {
 
 //pour la supression
 exports.deleteUser = (req, res) => {
-  console.log(JSON.stringify(req.body)  +"++++++++++++++++"+ JSON.stringify(req.params))
+  console.log("+++++++++++++++++"+ JSON.stringify(req.params))
   //test
   console.log("******requete server controller****** = ")
-  User.findOne({
+  User.destroy({
     where: {
-      username: req.body.username
+      id: req.params.id
     }
   })
   .then((num) => {
