@@ -41,7 +41,7 @@
 
             <!--informations annexes-->
             <p class="mt-5 mb-3 text-white">&copy;Groupomania départment 2019-2020.</p>
-            <router-link to="/about">About Groupomania</router-link>
+            <router-link to="/about" class="text-danger">About Groupomania</router-link>
         </div>
 
     </div>
@@ -81,6 +81,7 @@
                             data => {
                                 this.message = data.message;
                                 this.successful = true;
+                                console.log(data)
                             },
                             error => {
                                 this.message =
