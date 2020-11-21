@@ -8,8 +8,6 @@ const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-//suprime un utilisateur
-
 
 //inscription de l'utilisateur
 exports.signup = (req, res) => {
@@ -47,6 +45,8 @@ exports.signup = (req, res) => {
 
 //pour la connexion
 exports.signin = (req, res) => {
+  //test req
+  console.log( JSON.stringify(req.body)  + "TEST requete de la connexion");
   User.findOne({
     where: {
       username: req.body.username
@@ -90,4 +90,33 @@ exports.signin = (req, res) => {
     .catch(err => {
       res.status(500).send({ message: err.message });
     });
+};
+
+//pour la supression
+exports.deleteUser = (req, res) => {
+  console.log(JSON.stringify(req.body)  +"++++++++++++++++"+ JSON.stringify(req.params))
+  //test
+  console.log("******requete server controller****** = ")
+  User.findOne({
+    where: {
+      username: req.body.username
+    }
+  })
+  .then((num) => {
+    console.log("REPONSE DU SERVER = "+ num)
+    if(num == 1){
+      res.send({
+        message: "USER suprimé"
+      })
+    } else {
+      res.send({
+        message: "ERROR supression"
+      });
+    }
+  })
+  .catch((err => {
+    res.status(500).send({
+      message: "impossible de suprimé User"
+    })
+  }))
 };
