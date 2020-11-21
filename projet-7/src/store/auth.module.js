@@ -24,15 +24,12 @@ export const auth = {
   state: initialState,
   actions: {
 
-    delete({
-      commit
-    }, user) {
-      console.log('auth module user = '+ JSON.stringify(user))
-      return AuthService.delete(user)
-      .then(x => {
-        console.log('auth module PROMISE object= ' + JSON.stringify(x));
-        commit('deleteSuccess', x);
-        return Promise.resolve(x)
+    delete(id) {
+      console.log('auth module user')
+      return AuthService.delete(id)
+      .then(() => {
+        console.log('auth module');
+        return ;
       })
       .catch(err => console.log("ERROR auth module"+err))
     },
@@ -93,9 +90,5 @@ export const auth = {
     registerFailure(state) {
       state.status.loggedIn = false;
     },
-    deleteSuccess(state) {
-      state.status.loggedIn = false;
-      state.user = null;
-    }
   }
 };
