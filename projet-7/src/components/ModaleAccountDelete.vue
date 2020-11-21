@@ -12,7 +12,6 @@
 
 
 <script>
-
     export default {
         name: "ModaleAccountDelete",
         props: ["accountDelete", "toggleDelete"],
@@ -22,14 +21,18 @@
                 return user;
             },
         },
-        methods:{
+        methods: {
 
-            handleDelete(){
-                const user = this.currentUser;
-                this.$store.dispatch('auth/delete',user)
-                .then(user => {
-                    console.log('handleDelete result = ' + JSON.stringify(user))})
-                .catch(err => console.log('handleDelete ERROR result ='+ err));
+            handleDelete() {
+                let id = this.currentUser.id
+                console.log(id + "handledelete")
+                this.$store.dispatch(`auth/delete`, id)
+                    .then(() => {
+                        console.log('handleDelete responce ')
+                        this.$store.dispatch('auth/logout');
+                        this.$router.push('/');
+                    })
+                    .catch(err => console.log('handleDelete ERROR result =' + err));
             }
         },
     };
@@ -64,11 +67,13 @@
         position: fixed;
         top: 30%;
     }
+
     .agree {
         margin-top: 25px;
         padding: 4%;
         font-size: 1.5em;
     }
+
     .btn-close {
         position: absolute;
         top: 10px;
