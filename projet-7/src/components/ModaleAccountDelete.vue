@@ -1,24 +1,36 @@
 <template>
     <div class="bloc-modale" v-if="accountDelete">
-        <div class="overlay" v-on:click="toggleModale"></div>
+        <div class="overlay" v-on:click="toggleDelete"></div>
 
         <div class="modale card">
-            <div v-on:click="toggleModale" class="btn-close btn btn-danger">X</div>
+            <div v-on:click="toggleDelete" class="btn-close btn btn-danger">X</div>
             <h3>Delete your Account {{currentUser.username}} ?</h3>
-            <div class="agree btn btn-danger">Yes I agree</div>
+            <div @click="handleDelete" class="agree btn btn-danger">Yes I agree</div>
         </div>
     </div>
 </template>
 
 
 <script>
+
     export default {
         name: "ModaleAccountDelete",
-        props: ["accountDelete", "toggleModale"],
+        props: ["accountDelete", "toggleDelete"],
         computed: {
             currentUser() {
-                return this.$store.state.auth.user;
+                const user = this.$store.state.auth.user;
+                return user;
             },
+        },
+        methods:{
+
+            handleDelete(){
+                const user = this.currentUser;
+                this.$store.dispatch('auth/delete',user)
+                .then(user => {
+                    console.log('handleDelete result = ' + JSON.stringify(user))})
+                .catch(err => console.log('handleDelete ERROR result ='+ err));
+            }
         },
     };
 </script>
