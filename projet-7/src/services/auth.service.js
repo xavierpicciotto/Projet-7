@@ -18,16 +18,16 @@ class AuthService {
       });
   }
 
-  delete(user) {
-    user = {
-      username: user.username,
-      email: user.email,
-      id: user.id
-    }    
-    console.log(JSON.stringify(user) + " = AUTH service before")
-    return axios.delete(API_URL + 'delete',user)
+
+
+  delete(req) {
+    console.log(" = AUTH service before" +JSON.stringify(req))
+    const id = req.state.user.id
+    console.log(JSON.stringify(id) +"RASSSSSSSSSS")
+    return axios.delete(API_URL + `${id}`)
     .then(response => {
-      console.log("auth service delete ACTIVE = " + JSON.stringify(response))})
+      this.logout();
+      console.log("auth service delete ACTIVE = " + JSON.stringify(response.data))})
     .catch(err => console.log("auth service delete ERROR ="+err))
   }
 
