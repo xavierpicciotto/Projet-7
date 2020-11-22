@@ -24,14 +24,15 @@ export const auth = {
   state: initialState,
   actions: {
 
-    delete(id) {
-      console.log('auth module user')
-      return AuthService.delete(id)
+    delete(req) {
+      const userId = req.state.user.id
+      console.log('auth module USER ID = ',JSON.stringify(userId))
+      return AuthService.delete(userId)
       .then(() => {
-        console.log('auth module');
+        console.log('auth module response');
         return ;
       })
-      .catch(err => console.log("ERROR auth module"+err))
+      .catch(err => console.log(" auth module ERROR ="+err))
     },
 
     login({
