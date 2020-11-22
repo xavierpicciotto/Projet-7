@@ -89,7 +89,8 @@
                                     error.message ||
                                     error.toString();
                                 this.successful = false;
-                            }
+                            },
+                            //this.$router.push('/profile')
                         );
                     }
                 });
