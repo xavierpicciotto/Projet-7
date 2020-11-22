@@ -20,14 +20,12 @@ class AuthService {
 
 
 
-  delete(req) {
-    console.log(" = AUTH service before" +JSON.stringify(req))
-    const id = req.state.user.id
-    console.log(JSON.stringify(id) +"RASSSSSSSSSS")
-    return axios.delete(API_URL + `${id}`)
+  delete(user) {
+    console.log(" = AUTH service before USER ID = " +JSON.stringify(user))
+    return axios.delete(API_URL + `${user}`)
     .then(response => {
       this.logout();
-      console.log("auth service delete ACTIVE = " + JSON.stringify(response.data))})
+      console.log("auth service delete ACTIVED = " + JSON.stringify(response.data))})
     .catch(err => console.log("auth service delete ERROR ="+err))
   }
 
@@ -40,7 +38,10 @@ class AuthService {
       username: user.username,
       email: user.email,
       password: user.password
-    });
+    }).then(() => {
+        console.log("auth service Register response = OK")
+    }).catch(err => console.log(err));
+    
   }
 
 }
