@@ -24,9 +24,8 @@
         methods: {
 
             handleDelete() {
-                let id = this.currentUser.id
-                console.log(id + "handledelete")
-                this.$store.dispatch(`auth/delete`, id)
+                console.log("handledelete")
+                this.$store.dispatch(`auth/delete`)
                     .then(() => {
                         console.log('handleDelete responce ')
                         this.$store.dispatch('auth/logout');
