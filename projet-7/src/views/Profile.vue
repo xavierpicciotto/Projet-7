@@ -33,7 +33,7 @@
     </div>
     <!--editeur de profil-->
     <div class="editor container jumbotron jumbotron-fluid rounded-bottom">
-      <button v-on:click="toggleEdit" class="btn bg-primary text-white col-md-4">Edit Profile
+      <button v-on:click="toggleModify" class="btn bg-primary text-white col-md-4">Edit Profile
       </button>
       <!--account delete-->
       <button v-on:click="toggleDelete" class="btn bg-danger text-white sticky-right col-md-4">
@@ -41,33 +41,33 @@
       <modaleAccountDelete :accountDelete="accountDelete" :toggleDelete="toggleDelete"></modaleAccountDelete>
     </div>
     <!--modify account-->
-    <modaleEditProfile :editProfile="editProfile" :toggleEdit="toggleEdit"></modaleEditProfile>
+    <modaleModifyProfile :modifyProfile="modifyProfile" :toggleModify="toggleModify"></modaleModifyProfile>
 
   </div>
 </template>
 
 <script>
   import ModaleAccountDelete from "../components/ModaleAccountDelete.vue";
-  import ModaleEditProfile from "../components/ModaleEditProfile";
+  import ModaleModifyProfile from "../components/ModaleModifyProfile";
 
   export default {
     name: 'Profile',
     data() {
       return {
-        editProfile: false,
+        modifyProfile: false,
         accountDelete: false,
       }
     },
     components: {
-      modaleAccountDelete: ModaleAccountDelete,
-      ModaleEditProfile: ModaleEditProfile,
+      ModaleAccountDelete: ModaleAccountDelete,
+      ModaleModifyProfile: ModaleModifyProfile,
     },
     methods: {
       toggleDelete: function () {
         this.accountDelete = !this.accountDelete;
       },
-      toggleEdit() {
-        this.editProfile = !this.editProfile;
+      toggleModify() {
+        this.modifyProfile = !this.modifyProfile;
       },
     },
     computed: {
