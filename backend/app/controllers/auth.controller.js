@@ -94,9 +94,6 @@ exports.signin = (req, res) => {
 
 //pour la supression
 exports.deleteUser = (req, res) => {
-  console.log("+++++++++++++++++"+ JSON.stringify(req.params))
-  //test
-  console.log("******requete server controller****** = ")
   User.destroy({
     where: {
       id: req.params.id
@@ -106,11 +103,11 @@ exports.deleteUser = (req, res) => {
     console.log("REPONSE DU SERVER = "+ num)
     if(num == 1){
       res.send({
-        message: "USER suprimé"
+        message: "USER DELETED"
       })
     } else {
       res.send({
-        message: "ERROR supression"
+        message: "ERROR DELETE"
       });
     }
   })
@@ -120,3 +117,16 @@ exports.deleteUser = (req, res) => {
     })
   }))
 };
+//Modification identifiants
+exports.modifyUser = (req, res) => {
+  const user = req.body
+  console.log(JSON.stringify(user)  + "requete modify" +req.params.id)
+  User.update({
+    ...user,
+  },{
+       where: {
+      id: req.params.id
+    } 
+  }).then(x => console.log(x+"then"))
+  .catch(x => console.log(x+"error"))
+}
