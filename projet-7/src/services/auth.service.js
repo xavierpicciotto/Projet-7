@@ -18,8 +18,6 @@ class AuthService {
       });
   }
 
-
-
   delete(user) {
     console.log(" = AUTH service before USER ID = " +JSON.stringify(user))
     return axios.delete(API_URL + `${user}`)
@@ -41,9 +39,16 @@ class AuthService {
     }).then(() => {
         console.log("auth service Register response = OK")
     }).catch(err => console.log(err));
-    
   }
 
+  modify(user){
+    return axios.put(API_URL + 'modify/' + user.id,{
+      username: user.username,
+      email: user.email,
+      password: user.password
+    }).then(x => console.log(x))
+      .catch(x => console.log(x))
+  }
 }
 
 export default new AuthService();
