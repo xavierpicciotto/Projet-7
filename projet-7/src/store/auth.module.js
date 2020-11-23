@@ -63,14 +63,22 @@ export const auth = {
       return AuthService.register(user).then(
         response => {
           commit('registerSuccess');
-          return Promise.resolve(response.data);
+          return Promise.resolve(response);
         },
         error => {
           commit('registerFailure');
           return Promise.reject(error);
         }
       );
-    }
+    },
+    modify(req){
+      console.log(JSON.stringify(req) +"auth module")
+      const user = {
+        ...req.state.modify,
+        id: req.state.user.id
+      }
+      return AuthService.modify(user).then(x => console.log(x))
+    },
   },
   mutations: {
     loginSuccess(state, user) {
