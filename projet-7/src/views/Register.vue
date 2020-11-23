@@ -3,8 +3,10 @@
         <div>
             <h2>Please register</h2>
             <form name="form" @submit.prevent="handleRegister">
-                <div v-if="!successful">
+                <div>
                     <div class="form-group">
+                        <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+                            {{message}}</div>
                         <label for="username">Username</label>
                         <input v-model="user.username" v-validate="'required|min:3|max:20'" type="text"
                             class="form-control" name="username" />
@@ -56,9 +58,9 @@
             return {
                 user: new User('', '', ''),
                 submitted: false,
+                agreeClient: false,
                 successful: false,
                 message: '',
-                agreeClient: false,
             };
         },
         computed: {
@@ -73,30 +75,22 @@
         },
         methods: {
             handleRegister() {
-                this.message = '';
                 this.submitted = true;
                 this.$validator.validate().then(isValid => {
-                    if (isValid) {
-                        this.$store.dispatch('auth/register', this.user).then(
-                            data => {
-                                this.message = data.message;
-                                this.successful = true;
-                                console.log(data)
-                            },
-                            error => {
-                                this.message =
-                                    (error.response && error.response.data) ||
-                                    error.message ||
-                                    error.toString();
-                                this.successful = false;
-                            },
-                            //this.$router.push('/profile')
-                        );
-                    }
-                });
+                        if (isValid) {
+                            this.$store.dispatch('auth/register', this.user).then(
+                                () => {
+                                    this.message = "Successful !";
+                                    this.successful = true;
+                                }).catch(() => {
+                                    this.message = "Oups error :("
+                                    this.successful = false;
+                                });
+                            }
+                        });
+                }
             }
-        }
-    };
+        };
 </script>
 
 <style scoped lang="scss">
