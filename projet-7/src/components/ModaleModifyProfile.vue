@@ -19,6 +19,9 @@
                     <button class="btn btn-success btn-block">Modify</button>
                 </div>
             </form>
+            <div class="form-group">
+                <h4>You will be disconnected.</h4>
+            </div>
         </div>
     </div>
 </template>
@@ -41,12 +44,19 @@
         },
         methods: {
             handleModify() {
-                const modify = {
-                    ...this.user,
-                }
-                this.$store.state.auth.modify = modify
-                console.log(modify)
-                this.$store.dispatch(`auth/modify`)
+                this.$validator.validate().then(isValid => {
+                    if (isValid) {
+                        let modify = {
+                            ...this.user
+                        }
+                        this.$store.state.auth.modify = modify
+                        this.$store.dispatch(`auth/modify`).then(() => {
+                            console.log('HandleModify responce')
+                            this.$store.dispatch('auth/logout');
+                            this.$router.push('/');
+                        })
+                    }
+                })
             }
         }
 
@@ -80,6 +90,12 @@
         color: #333;
         padding: 50px;
         top: 50px;
+
+        h4 {
+            background-color: #e07171;
+            border-radius: 1em;
+            text-align: center;
+        }
     }
 
     .form-group {
