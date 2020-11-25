@@ -11,12 +11,12 @@ const bcrypt = require("bcryptjs");
 
 //inscription de l'utilisateur
 exports.signup = (req, res) => {
-  // sauvegarde l'utilisateur sur la base de données
+
   User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  })
+      username: req.body.username,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8)
+    })
     .then(user => {
       if (req.body.roles) {
         Role.findAll({
@@ -26,35 +26,42 @@ exports.signup = (req, res) => {
             }
           }
         }).then(roles => {
-          //si le compte a été atribué d'un ou plusieur roles
+          //si le compte a été attribué d'un ou plusieur roles
           user.setRoles(roles).then(() => {
-            res.send({ message: "User registered successfully!" });
+            res.send({
+              message: "User registered successfully!"
+            });
           });
         });
       } else {
         // role par default = user
         user.setRoles([1]).then(() => {
-          res.send({ message: "User registered successfully!" });
+          res.send({
+            message: "User registered successfully!"
+          });
         });
       }
     })
     .catch(err => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send({
+        message: err.message
+      });
     });
 };
 
 //pour la connexion
 exports.signin = (req, res) => {
-  //test req
-  console.log( JSON.stringify(req.body)  + "TEST requete de la connexion");
+
   User.findOne({
-    where: {
-      username: req.body.username
-    }
-  })
+      where: {
+        username: req.body.username
+      }
+    })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({
+          message: "User Not found."
+        });
       }
 
       const passwordIsValid = bcrypt.compareSync(
@@ -69,7 +76,9 @@ exports.signin = (req, res) => {
         });
       }
 
-      const token = jwt.sign({ id: user.id }, config.secret, {
+      const token = jwt.sign({
+        id: user.id
+      }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
@@ -88,45 +97,72 @@ exports.signin = (req, res) => {
       });
     })
     .catch(err => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send({
+        message: err.message
+      });
     });
 };
 
 //pour la supression
 exports.deleteUser = (req, res) => {
+
   User.destroy({
-    where: {
-      id: req.params.id
-    }
-  })
-  .then((num) => {
-    console.log("REPONSE DU SERVER = "+ num)
-    if(num == 1){
-      res.send({
-        message: "USER DELETED"
-      })
-    } else {
-      res.send({
-        message: "ERROR DELETE"
-      });
-    }
-  })
-  .catch((err => {
-    res.status(500).send({
-      message: "impossible de suprimé User"
+      where: {
+        id: req.params.id
+      }
     })
-  }))
+    .then((num) => {
+      console.log("REPONSE DU SERVER = " + num)
+      if (num == 1) {
+        res.status(200).send({
+          message: "USER DELETED"
+        })
+      } else {
+        res.status(404).send({
+          message: "USER NOT FOUND"
+        });
+      }
+    })
+    .catch((err => {
+      res.status(500).send({
+        message: "ERROR DELETE" + err
+      })
+    }))
 };
+
 //Modification identifiants
 exports.modifyUser = (req, res) => {
-  const user = req.body
-  console.log(JSON.stringify(user)  + "requete modify" +req.params.id)
-  User.update({
-    ...user,
-  },{
-       where: {
-      id: req.params.id
-    } 
-  }).then(x => console.log(x+"then"))
-  .catch(x => console.log(x+"error"))
+
+  User.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(user => {
+      console.log("*****************findONE*********************" + JSON.stringify(user))
+      let userModified = req.body;
+      console.log("*****************usermodified*********************" + JSON.stringify(userModified))
+      //Remplit les changements vides.
+      userModified.username === "" ? userModified.username = user.username : userModified.username;
+      userModified.email === "" ? userModified.email = user.email : userModified.email;
+      userModified.password === "" ? userModified.password = user.password : userModified.password = bcrypt.hashSync(userModified.password, 8);
+      console.log("**************************************" + JSON.stringify(userModified))
+
+      User.update({
+          ...userModified,
+        }, {
+          where: {
+            id: req.params.id
+          }
+        }).then(() => {
+          res.status(200).send({
+            message: "UDATE SUCCESSFUL"
+          })
+        })
+        .catch(res => res.status(500).send({
+          message: "ERROR UPDATE"
+        }))
+    })
+    .catch(res => res.status(404).send({
+      message: "ERROR USER NOT FIND"
+    }))
 }
