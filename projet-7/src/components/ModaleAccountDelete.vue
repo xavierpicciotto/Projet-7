@@ -26,8 +26,8 @@
             handleDelete() {
                 console.log("handledelete")
                 this.$store.dispatch(`auth/delete`)
-                    .then(() => {
-                        console.log('handleDelete responce ')
+                    .then((X) => {
+                        console.log('handleDelete responce '+X)
                         this.$store.dispatch('auth/logout');
                         this.$router.push('/');
                     })
