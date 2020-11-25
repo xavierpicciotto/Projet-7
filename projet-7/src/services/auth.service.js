@@ -46,8 +46,10 @@ class AuthService {
       username: user.username,
       email: user.email,
       password: user.password
-    }).then(x => console.log(x))
-      .catch(x => console.log(x))
+    }).then(() =>{
+      this.logout()
+    } )
+      .catch(err => console.log(err))
   }
 }
 
