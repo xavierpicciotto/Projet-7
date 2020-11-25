@@ -32,7 +32,7 @@
         Moderator content.</div>
     </div>
     <!--editeur de profil-->
-    <div class="editor container jumbotron jumbotron-fluid rounded-bottom">
+    <div class="editor container jumbotron jumbotron-fluid">
       <button v-on:click="toggleModify" class="btn bg-primary text-white col-md-4">Edit Profile
       </button>
       <!--account delete-->
@@ -170,6 +170,9 @@
     button {
       font-size: 1.5em;
       border-radius: 1em;
+    }
+    @media screen and (max-width: 765px) {
+      flex-direction: column;
     }
   }
 </style>
