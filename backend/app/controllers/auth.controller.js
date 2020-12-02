@@ -155,14 +155,22 @@ exports.modifyUser = (req, res) => {
           }
         }).then(() => {
           res.status(200).send({
-            message: "UDATE SUCCESSFUL"
+            message: "UPDATE SUCCESSFUL",
+            username: userModified.username,
+            email: userModified.email,
           })
         })
-        .catch(res => res.status(500).send({
-          message: "ERROR UPDATE"
+        .catch(err => res.status(500).send({
+          message: "ERROR UPDATE" + err
         }))
+
+      /*res.status(200).send({
+        username: userModified.username,
+        email: userModified.email,
+      });*/
+
     })
-    .catch(res => res.status(404).send({
-      message: "ERROR USER NOT FIND"
+    .catch(err => res.status(404).send({
+      message: "ERROR USER NOT FIND" + err
     }))
 }
