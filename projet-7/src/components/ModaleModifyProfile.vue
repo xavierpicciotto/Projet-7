@@ -16,12 +16,9 @@
                     <input v-model="user.password" v-validate="'min:6|max:40'" name="password" type="password">
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-success btn-block">Modify</button>
+                    <button class="btn btn-success btn-block">Aplly changes</button>
                 </div>
             </form>
-            <div class="form-group">
-                <h4>You will be disconnected.</h4>
-            </div>
         </div>
     </div>
 </template>
@@ -39,10 +36,17 @@
         },
         computed: {
             currentUser() {
-                return this.$store.state.auth.user;
+                return JSON.parse(localStorage.getItem('user'))
             },
         },
+        watch: {
+            currentUser() {
+                console.log('changement detecter!!!')
+                return this.$store.state.auth.user;
+            }
+        },
         methods: {
+
             handleModify() {
                 this.$validator.validate().then(isValid => {
                     if (isValid) {
@@ -52,8 +56,7 @@
                         this.$store.state.auth.modify = modify
                         this.$store.dispatch(`auth/modify`).then(() => {
                             console.log('HandleModify responce')
-                            this.$store.dispatch('auth/logout');
-                            this.$router.push('/');
+                            this.$router.push('/')
                         })
                     }
                 })
@@ -90,12 +93,6 @@
         color: #333;
         padding: 50px;
         top: 50px;
-
-        h4 {
-            background-color: #e07171;
-            border-radius: 1em;
-            text-align: center;
-        }
     }
 
     .form-group {
