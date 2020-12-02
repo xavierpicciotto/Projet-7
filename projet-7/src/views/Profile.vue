@@ -73,8 +73,9 @@
     computed: {
       //Récupère les infos sur le User.
       currentUser() {
-        return this.$store.state.auth.user;
+      return JSON.parse(localStorage.getItem('user'))
       },
+
       showAdminBoard() {
         if (this.currentUser && this.currentUser.roles) {
           return this.currentUser.roles.includes('ROLE_ADMIN');
@@ -82,6 +83,7 @@
 
         return false;
       },
+      
       showModeratorBoard() {
         if (this.currentUser && this.currentUser.roles) {
           return this.currentUser.roles.includes('ROLE_MODERATOR');
@@ -167,10 +169,12 @@
     display: flex;
     justify-content: space-around;
     padding-top: 0;
+
     button {
       font-size: 1.5em;
       border-radius: 1em;
     }
+
     @media screen and (max-width: 765px) {
       flex-direction: column;
     }
