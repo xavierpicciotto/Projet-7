@@ -5,19 +5,32 @@ const User = db.user;
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
-
+  
+  //Action si pas de token.
   if (!token) {
     return res.status(403).send({
-      message: "No token provided!"
+      message: "No user connected or authenticated!"
     });
   }
 
+  //Décode le Token.
   jwt.verify(token, config.secret, (err, decoded) => {
+
+    //Si une erreur.
     if (err) {
       return res.status(401).send({
         message: "Unauthorized!"
       });
     }
+    //Si utilisation d'un vrai Token sur un autre compte.
+    if (req.params.id){
+     if (req.params.id != decoded.id) {
+       return res.status(401).send({
+         message: "Incorrect authorization!"
+       })
+     }  
+    }
+    //Défini un ID vérifié.
     req.userId = decoded.id;
     next();
   });
@@ -34,7 +47,9 @@ isAdmin = (req, res, next) => {
         }
       }
 
-      res.status(403).send("Require Admin Role!");
+      res.status(403).send({
+        message: "Require Admin Role!"
+      });
       return;
     });
   });
@@ -50,7 +65,9 @@ isModerator = (req, res, next) => {
         }
       }
 
-      res.status(403).send("Require Moderator Role!");
+      res.status(403).send({
+        message: "Require Moderator Role!"
+      });
     });
   });
 };
@@ -69,7 +86,9 @@ isModeratorOrAdmin = (req, res, next) => {
           return;
         }
       }
-      res.status(403).send("Require Moderator or Admin Role!");
+      res.status(403).send({
+        message: "Require Moderator or Admin Role!"
+      });
     });
   });
 };
