@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:3000/api/auth/';
 
@@ -19,11 +20,14 @@ class AuthService {
       });
   }
 
-  delete(user) {
-    console.log(" = AUTH service before USER ID = " + JSON.stringify(user))
-    return axios.delete(API_URL + `${user}`)
+  delete() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(" = AUTH service before USER ID = " + user.id)
+    return axios.delete(API_URL + 'delete/' + user.id, {
+        headers: authHeader()
+      })
       .then(response => {
-        this.logout();
+        localStorage.removeItem('user');
         console.log("auth service delete ACTIVED = " + JSON.stringify(response.data))
       })
       .catch(err => console.log("auth service delete ERROR =" + err))
@@ -44,15 +48,18 @@ class AuthService {
   }
 
   modify(user) {
+    console.log(user)
     return axios.put(API_URL + 'modify/' + user.id, {
         username: user.username,
         email: user.email,
         password: user.password
+      }, {
+        headers: authHeader()
       }).then(response => {
         if (response.data.username && response.data.email) {
           console.log(JSON.stringify(response.data))
           let user = JSON.parse(localStorage.getItem('user'))
-            user.username = response.data.username,
+          user.username = response.data.username,
             user.email = response.data.email
           console.log(user)
           localStorage.setItem('user', JSON.stringify(user));
