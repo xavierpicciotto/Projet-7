@@ -19,13 +19,10 @@ export default {
   mounted() {
     UserService.getModeratorBoard().then(
       response => {
-        this.content = response.data;
+        this.content = response.data.message;
       },
-      error => {
-        this.content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
+      err => {
+        this.content = err.response.data.message
       }
     );
   }
