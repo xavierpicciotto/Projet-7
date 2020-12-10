@@ -4,7 +4,7 @@
 
         <div class="modale card">
             <div v-on:click="toggleDelete" class="btn-close btn btn-danger">X</div>
-            <h3>Delete your Account {{currentUser.username}} ?</h3>
+            <h3>Delete your Account ?</h3>
             <div @click="handleDelete" class="agree btn btn-danger">Yes I agree</div>
         </div>
     </div>
@@ -16,22 +16,15 @@
         name: "ModaleAccountDelete",
         props: ["accountDelete", "toggleDelete"],
         computed: {
-            currentUser() {
-                const user = this.$store.state.auth.user;
-                return user;
-            },
         },
         methods: {
 
             handleDelete() {
-                console.log("handledelete")
                 this.$store.dispatch(`auth/delete`)
-                    .then((X) => {
-                        console.log('handleDelete responce '+X)
-                        this.$store.dispatch('auth/logout');
+                    .then(() => {
                         this.$router.push('/');
                     })
-                    .catch(err => console.log('handleDelete ERROR result =' + err));
+                    .catch(err => console.log(err));
             }
         },
     };
