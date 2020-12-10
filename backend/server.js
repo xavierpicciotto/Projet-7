@@ -3,32 +3,33 @@ const bodyParser = require("body-parser");
 var cors = require('cors')
 
 const app = express();
+
 app.use(cors())
 
-// parse la requete en JSON
+//Parse la requete en JSON.
 app.use(bodyParser.json());
 
-// parse les requete des contenus / x-www-form-urlencoded
+//Parse les requetes des contenus / x-www-form-urlencoded.
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// database
+//Base de données.
 const db = require("./app/models");
 
 
-//synchroniser la base de donées avec sequelize
+//Synchroniser la base de donées avec sequelize.
 db.sequelize.sync();
 
 
-// simple route
+//Route de vérifiquation de réponse.
 app.get("/", (req, res) => {
   res.json({ message: "APP en fonctionement" });
 });
 
 // routes
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+require('./app/routes/auth.routes')(app);//CRUD compte utilisateur.
+require('./app/routes/user.routes')(app);//Droits d'accès. 
 
-// set port, listen for requests
+//Défini le port a écouter
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
