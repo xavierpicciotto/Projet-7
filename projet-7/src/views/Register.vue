@@ -79,11 +79,12 @@
                 this.$validator.validate().then(isValid => {
                         if (isValid) {
                             this.$store.dispatch('auth/register', this.user).then(
-                                () => {
+                                (data) => {
+                                    console.log(data)
                                     this.message = "Successful !";
                                     this.successful = true;
-                                }).catch(() => {
-                                    this.message = "Oups error :("
+                                }).catch(err => {
+                                    this.message = "Oups error :" + err
                                     this.successful = false;
                                 });
                             }
