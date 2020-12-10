@@ -1,10 +1,12 @@
 import AuthService from '../services/auth.service';
 
+//Récupère l'utilisateur si déjà connecté.
 const user = JSON.parse(localStorage.getItem('user'));
 
 //vérification
 console.log("USER proffile:  " + JSON.stringify(user));
 
+//Initialise l'état initiale si il y a un utilisateur.
 const initialState = user ?
   {
     status: {
@@ -23,14 +25,12 @@ export const auth = {
   namespaced: true,
   state: initialState,
   actions: {
-
-    delete(req) {
-      const userId = req.state.user.id
-      console.log('auth module USER ID = ',JSON.stringify(userId))
-      return AuthService.delete(userId)
+ 
+    delete({ commit }) {
+      return AuthService.delete()
       .then(() => {
-        console.log('auth module response');
-        return ;
+        commit('delete')
+        return
       })
       .catch(err => console.log(" auth module ERROR ="+err))
     },
@@ -71,15 +71,20 @@ export const auth = {
         }
       );
     },
-    modify(req){
-      console.log(JSON.stringify(req) +"auth module")
-      const user = {
-        ...req.state.modify,
-        id: req.state.user.id
-      }
+
+    modify({ commit }, user){
+      console.log(user)
       return AuthService.modify(user).then(x => console.log(x))
+      .then((user) => {
+        commit('modifySuccess', user);
+        return Promise.resolve(user)
+      })
+      .catch(error => {
+        return Promise.reject(error);
+      })
     },
   },
+
   mutations: {
     loginSuccess(state, user) {
       state.status.loggedIn = true;
@@ -92,6 +97,14 @@ export const auth = {
     logout(state) {
       state.status.loggedIn = false;
       state.user = null;
+    },
+    delete(state) {
+      state.status.loggedIn = false;
+      state.user = null;
+    },
+    modifySuccess(state){
+      state.status.loggedIn = true;
+      state.user = user;      
     },
     registerSuccess(state) {
       state.status.loggedIn = false;
