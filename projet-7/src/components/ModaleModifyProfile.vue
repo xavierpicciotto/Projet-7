@@ -39,22 +39,16 @@
                 return JSON.parse(localStorage.getItem('user'))
             },
         },
-        watch: {
-            currentUser() {
-                console.log('changement detecter!!!')
-                return this.$store.state.auth.user;
-            }
-        },
         methods: {
 
             handleModify() {
                 this.$validator.validate().then(isValid => {
                     if (isValid) {
-                        let modify = {
-                            ...this.user
+                        const userUpdate = {
+                            ...this.user,
+                            id: this.currentUser.id
                         }
-                        this.$store.state.auth.modify = modify
-                        this.$store.dispatch(`auth/modify`).then(() => {
+                        this.$store.dispatch(`auth/modify`, userUpdate).then(() => {
                             console.log('HandleModify responce')
                             this.$router.push('/')
                         })
