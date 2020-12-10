@@ -105,10 +105,10 @@ exports.signin = (req, res) => {
 
 //pour la supression
 exports.deleteUser = (req, res) => {
-
+  console.log(req)
   User.destroy({
       where: {
-        id: req.params.id
+        id: req.userId //ID vérifié
       }
     })
     .then((num) => {
@@ -132,26 +132,23 @@ exports.deleteUser = (req, res) => {
 
 //Modification identifiants
 exports.modifyUser = (req, res) => {
-
+  console.log(req)
   User.findOne({
       where: {
-        id: req.params.id
+        id: req.userId //ID vérifié
       }
     }).then(user => {
-      console.log("*****************findONE*********************" + JSON.stringify(user))
       let userModified = req.body;
-      console.log("*****************usermodified*********************" + JSON.stringify(userModified))
-      //Remplit les changements vides.
+      //Remplit les changements vides dans le cas échéant avec les valeurs actuels.
       userModified.username === "" ? userModified.username = user.username : userModified.username;
       userModified.email === "" ? userModified.email = user.email : userModified.email;
       userModified.password === "" ? userModified.password = user.password : userModified.password = bcrypt.hashSync(userModified.password, 8);
-      console.log("**************************************" + JSON.stringify(userModified))
 
       User.update({
           ...userModified,
         }, {
           where: {
-            id: req.params.id
+            id: req.userId //ID vérifié
           }
         }).then(() => {
           res.status(200).send({
@@ -163,11 +160,6 @@ exports.modifyUser = (req, res) => {
         .catch(err => res.status(500).send({
           message: "ERROR UPDATE" + err
         }))
-
-      /*res.status(200).send({
-        username: userModified.username,
-        email: userModified.email,
-      });*/
 
     })
     .catch(err => res.status(404).send({
