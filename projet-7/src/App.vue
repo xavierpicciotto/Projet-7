@@ -9,7 +9,7 @@
     <!--Logo-->
     <div class="logo-container text-center">
       <router-link to="/">
-        <img src="./assets/icon.svg" alt="">
+        <img src="./assets/icon.svg" class="logo" alt="logo groupomania">
       </router-link>
       <h1>Groupomania</h1>
     </div>
@@ -45,7 +45,7 @@
   body {
     background: linear-gradient(to right, #9fcbff, #001280c7);
 
-    img {
+    .logo {
       width: 200px;
       height: auto;
       border-radius: 15px;
