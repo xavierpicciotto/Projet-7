@@ -78,9 +78,9 @@
                   this.message = "Connexion Successfull !"
                   this.$router.push('/profile');
                 },
-                error => {
+                err => {
                   this.loading = false;
-                  this.message = "Error occured :" + error
+                  this.message = err.response.data.message
                 }
               );
             }
