@@ -77,21 +77,22 @@
             handleRegister() {
                 this.submitted = true;
                 this.$validator.validate().then(isValid => {
-                        if (isValid) {
-                            this.$store.dispatch('auth/register', this.user).then(
-                                (data) => {
-                                    console.log(data)
-                                    this.message = "Successful !";
-                                    this.successful = true;
-                                }).catch(err => {
-                                    this.message = "Oups error :" + err
-                                    this.successful = false;
-                                });
+                    if (isValid) {
+                        this.$store.dispatch('auth/register', this.user).then(
+                            response => {
+                                this.message = response.message;
+                                this.successful = true;
+                            },
+                            err => {
+                                this.message = err.response.data.message;
+                                this.successful = false
                             }
-                        });
-                }
+                        );
+                    }
+                });
             }
-        };
+        }
+    };
 </script>
 
 <style scoped lang="scss">
