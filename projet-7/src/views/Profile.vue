@@ -68,6 +68,9 @@
       },
       toggleModify() {
         this.modifyProfile = !this.modifyProfile;
+        if(this.modifyProfile === false){
+          this.$router.push('/')
+        }
       },
     },
     computed: {
