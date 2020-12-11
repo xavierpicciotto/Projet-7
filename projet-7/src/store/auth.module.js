@@ -74,7 +74,7 @@ export const auth = {
 
     modify({ commit }, user){
       console.log(user)
-      return AuthService.modify(user).then(x => console.log(x))
+      return AuthService.modify(user)
       .then((user) => {
         commit('modifySuccess', user);
         return Promise.resolve(user)
