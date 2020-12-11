@@ -12,7 +12,6 @@ class AuthService {
       })
       .then(response => {
         if (response.data.accessToken) {
-          console.log(JSON.stringify(response.data))
           localStorage.setItem('user', JSON.stringify(response.data));
         }
 
@@ -22,7 +21,7 @@ class AuthService {
 
   delete() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(" = AUTH service before USER ID = " + user.id)
+
     return axios.delete(API_URL + 'delete/' + user.id, {
         headers: authHeader()
       })
@@ -42,9 +41,9 @@ class AuthService {
       username: user.username,
       email: user.email,
       password: user.password
-    }).then(() => {
-      console.log("auth service Register response = OK")
-    }).catch(err => console.log(err));
+    }).then((response) => {
+      return response.data
+    })
   }
 
   modify(user) {
@@ -67,7 +66,6 @@ class AuthService {
 
         return response.data
       })
-      .catch(err => console.log(err))
   }
 }
 
