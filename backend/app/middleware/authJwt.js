@@ -6,7 +6,7 @@ const User = db.user;
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   
-  //Action si pas de token.
+  //Action si il n'y a pas de token.
   if (!token) {
     return res.status(403).send({
       message: "No user connected or authenticated!"
