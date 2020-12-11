@@ -5,6 +5,8 @@
         <div class="modale card">
             <div v-on:click="toggleModify" class="btn-close btn btn-danger">X</div>
             <h3>Modify your profile {{currentUser.username}}.</h3>
+            <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+                {{message}}</div>
             <form @submit.prevent="handleModify" name="form" class="container">
                 <div class="form-group"> <label for="username">Username: {{currentUser.username}}</label>
                     <input v-model="user.username" v-validate="'min:3|max:20'" name="username" type="text">
@@ -31,7 +33,9 @@
         props: ["modifyProfile", "toggleModify"],
         data() {
             return {
-                user: new User('', '', '')
+                user: new User('', '', ''),
+                message: "",
+                successful: false,
             }
         },
         computed: {
@@ -48,10 +52,14 @@
                             ...this.user,
                             id: this.currentUser.id
                         }
-                        this.$store.dispatch(`auth/modify`, userUpdate).then(() => {
-                            console.log('HandleModify responce')
-                            this.$router.push('/')
-                        })
+                        this.$store.dispatch(`auth/modify`, userUpdate).then(
+                            response => {
+                                this.message = response.message
+                                this.successful = true
+                            }, err => {
+                                this.message = err.response.data.message
+                                this.successful = false
+                            })
                     }
                 })
             }
