@@ -28,7 +28,7 @@ exports.signup = (req, res) => {
         }).then(roles => {
           //si le compte a été attribué d'un ou plusieur roles
           user.setRoles(roles).then(() => {
-            res.send({
+            return res.status(200).send({
               message: "User registered successfully!"
             });
           });
@@ -36,14 +36,14 @@ exports.signup = (req, res) => {
       } else {
         // role par default = user
         user.setRoles([1]).then(() => {
-          res.send({
+          return res.status(200).send({
             message: "User registered successfully!"
           });
         });
       }
     })
     .catch(err => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message
       });
     });
@@ -79,7 +79,7 @@ exports.signin = (req, res) => {
       const token = jwt.sign({
         id: user.id
       }, config.secret, {
-        expiresIn: 86400 // 24 hours
+        expiresIn: 86400 // 24 heures
       });
 
       const authorities = [];
@@ -87,7 +87,7 @@ exports.signin = (req, res) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
-        res.status(200).send({
+        return res.status(200).send({
           id: user.id,
           username: user.username,
           email: user.email,
@@ -97,7 +97,7 @@ exports.signin = (req, res) => {
       });
     })
     .catch(err => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message
       });
     });
@@ -132,7 +132,7 @@ exports.deleteUser = (req, res) => {
 
 //Modification identifiants
 exports.modifyUser = (req, res) => {
-  console.log(req)
+
   User.findOne({
       where: {
         id: req.userId //ID vérifié
@@ -152,7 +152,7 @@ exports.modifyUser = (req, res) => {
           }
         }).then(() => {
           res.status(200).send({
-            message: "UPDATE SUCCESSFUL",
+            message: "Update Successful",
             username: userModified.username,
             email: userModified.email,
           })
