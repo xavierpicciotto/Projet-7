@@ -105,7 +105,6 @@ exports.signin = (req, res) => {
 
 //pour la supression
 exports.deleteUser = (req, res) => {
-  console.log(req)
   User.destroy({
       where: {
         id: req.userId //ID vérifié
